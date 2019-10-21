@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+
+        xmlns:android="http://schemas.android.com/apk/res/android"
+
+              android:orientation="vertical"
+
+              android:layout_width="match_parent"
+
+              android:layout_height="match_parent">
+
+
+
+    <LinearLayout
+
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+
+            android:layout_marginStart="30dp"
+
+            android:layout_marginTop="10dp"
+
+            android:layout_marginBottom="10dp"
+
+            android:orientation="horizontal" android:layout_marginLeft="30dp">
+
+
+
+        <ImageView
+
+                android:layout_width="50dp"
+
+                android:layout_height="50dp"
+
+                android:src="@mipmap/ic_launcher"/>
+
+
+
+        <LinearLayout
+
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+
+                android:layout_marginStart="10dp"
+
+                android:orientation="vertical" android:layout_marginLeft="10dp">
+
+
+
+            <TextView
+
+                    android:id="@+id/nama"
+
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+
+                    android:text="MAKANAN"/>
+
+
+
+            <TextView
+
+                    android:id="@+id/detail"
+
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+
+                    android:text="Detail"/>
+
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>
+
+
+
+package com.example.pertemuan_5
+
+
+
+class languageModel(val nama:String) {
+
+}
+
+package com.example.pertemuan_5
+
+
+
+import android.content.Context
+
+import android.view.LayoutInflater
+
+import android.view.View
+
+import android.view.ViewGroup
+
+import android.widget.BaseAdapter
+
+import android.widget.TextView
+
+
+
+class languageAdapter(val listmakanan : ArrayList<languageModel>,
+
+                      val context: Context):BaseAdapter() {
+
+
+
+    class ViewHolder(itemView: View){
+
+        val nama : TextView = itemView.findViewById(R.id.nama)
+
+    }
+
+
+
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+
+        val view : View
+
+        val viewHolder : ViewHolder
+
+
+
+        if(convertView==null){
+
+            val layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)
+
+                    as LayoutInflater
+
+
+
+            view = layoutInflater.inflate(R.layout.layout_listview,null)
+
+            viewHolder = ViewHolder(view)
+
+
+
+            view.tag = viewHolder
+
+        }else{
+
+            view = convertView
+
+
+            viewHolder = ViewHolder(view)
+        }
+
+
+        val posisi = listmakanan[position] //posisi data pada main activity
+
+
+
+        viewHolder.nama.text = posisi.nama
+
+        return view
+
+    }
+
+
+
+    override fun getItem(position: Int): languageModel {
+
+       return listmakanan[position]
+
+    }
+
+
+
+    override fun getItemId(position: Int): Long {
+
+        return position.toLong()
+
+    }
+
+
+
+package com.example.pertemuan_5
+
+
+
+import android.content.Context
+
+import android.view.LayoutInflater
+
+import android.view.View
+
+import android.view.ViewGroup
+
+import android.widget.BaseAdapter
+
+import android.widget.TextView
+
+
+
+class languageAdapter(val listmakanan : ArrayList<languageModel>,
+
+                      val context: Context):BaseAdapter() {
+
+
+
+    class ViewHolder(itemView: View){
+
+        val nama : TextView = itemView.findViewById(R.id.nama)
+
+    }
+
+
+
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+
+        val view : View
+
+        val viewHolder : ViewHolder
+
+
+
+        if(convertView==null){
+
+            val layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)
+
+                    as LayoutInflater
+
+
+
+            view = layoutInflater.inflate(R.layout.layout_listview,null)
+
+            viewHolder = ViewHolder(view)
+
+
+
+            view.tag = viewHolder
+
+        }else{
+
+            view = convertView
+
+            viewHolder = ViewHolder(view)
+
+        }
+
+
+
+        val posisi = listmakanan[position] //posisi data pada main activity
+
+
+
+        viewHolder.nama.text = posisi.nama
+
+        return view
+
+    }
+
+
+
+    override fun getItem(position: Int): languageModel {
+
+       return listmakanan[position]
+
+    }
+
+
+
+    override fun getItemId(position: Int): Long {
+
+        return position.toLong()
+
+    }
+
+
+
+    override fun getCount(): Int {
+
+       return listmakanan.size
+
+    }
+
+}
+
+
+
+package com.example.pertemuan_5
+
+
+
+import androidx.appcompat.app.AppCompatActivity
+
+import android.R.layout.simple_list_item_1
+
+import android.os.Bundle
+
+import android.widget.ArrayAdapter
+
+import android.widget.ListAdapter
+
+import android.widget.Toast
+
+import kotlinx.android.synthetic.main.activity_main.*
+
+
+
+class MainActivity : AppCompatActivity() {
+
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+
+        super.onCreate(savedInstanceState)
+
+        setContentView(R.layout.activity_main)
+
+
+
+        val languageList = ArrayList<languageModel>()
+
+
+
+        val data_language = arrayOf(
+
+            "Ikan bakar",
+
+            "nasi kuning",
+
+            "soto",
+
+            "mie bakso",
+
+            "mie ayam",
+
+            "Ayam bakar",
+
+            "nasi uduk",
+
+            "pecel",
+
+            "nasi goreng"
+
+        )
+
+
+
+        for (data in data_makanan){
+
+            var model = languageModel(data)
+
+            languageList.add(model)
+
+        }
+
+
+
+        list_view.adapter = languageAdapter(languageList, this) as ListAdapter?
+
+
+
+        list_view.setOnItemClickListener{parent, view, position, id ->
+
+            Toast.makeText(this,"anda memilih : " + languageList.get(position).nama,Toast.LENGTH_SHORT).show()
+
+        }
+
+}
